@@ -24,7 +24,7 @@ def to_arg(type_, value):
 
                 # 将 value 中每个值转换成 sub_type 类型
                 list_values = []
-                if sub_type in BASE_TYPES:  # 基础类型
+                if sub_type in BASE_TYPES:  # 基础类型, todo 支持任意类型
                     for v in value:
                         if v is None:
                             list_values.append(None)
@@ -35,7 +35,24 @@ def to_arg(type_, value):
                         list_values.append(json_2_obj(v, sub_type))
                 return list_values
             elif isinstance(type_, dict):  # {type:type} | 第一个type必须是 KEY_TYPES 中的类型
-                pass
+                if value is None:
+                    return None
+                assert isinstance(value, dict)
+                assert len(type_) == 1
+                key_type = list(type_.keys())[0]
+                assert key_type in KEY_TYPES
+                value_type = list(type_.values())[0]
+                dict_value = {}
+                if value_type in BASE_TYPES:
+                    for k, v in value.items():
+                        if v is None:
+                            dict_value[key_type(k)] = None
+                        else:
+                            dict_value[key_type(k)] = value_type(v)
+                else:  # 自定义类型
+                    for k, v in value.items():
+                        dict_value[key_type(k)] = json_2_obj(v, value_type)
+                return dict_value
 
 
 # json 可以是str或者dict
@@ -107,7 +124,7 @@ def test3():
 
 def test4():
     class B(object):
-        def __init__(self, h:str):
+        def __init__(self, h: str):
             self.h = h
 
     class A(object):
@@ -120,5 +137,20 @@ def test4():
     print(a.names[0].h)
 
 
+def test5():
+    class B(object):
+        def __init__(self, h: str):
+            self.h = h
+
+    class A(object):
+        def __init__(self, names: {str:B}):
+            self.names = names
+
+    js = '{"names":{"a":{"h":1}, "b":{"h":2}}}'
+    a = json_2_obj(js, A)
+    print(a.names)
+    print(a.names["a"].h)
+
+
 if __name__ == '__main__':
-    test4()
+    test5()

@@ -25,3 +25,4 @@ if __name__ == '__main__':
     print(type(Person.__init__.__annotations__["asda"]))
     print(isinstance(Person.__init__.__annotations__["abc"], type))
     print(isinstance(Person.__init__.__annotations__["asda"], type))
+    print(list({"":""}.keys())[0])
