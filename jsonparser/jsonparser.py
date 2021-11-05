@@ -12,7 +12,7 @@ def to_arg(type_, value):
         return type_(value)
     else:
         if isinstance(type_, type):  # 自定义类型
-            return json_2_obj(value, type_)
+            return json_to_obj(value, type_)
         else:
             if isinstance(type_, list):  # [type] 比如 type_ = [str]
                 if value is None:
@@ -35,7 +35,7 @@ def to_arg(type_, value):
                         list_values.append(v)
                 else:  # 自定义类型, 这种情况 value 应该是一个 dict
                     for v in value:
-                        list_values.append(json_2_obj(v, sub_type))
+                        list_values.append(json_to_obj(v, sub_type))
                 return list_values
             elif isinstance(type_, dict):  # {type:type} | 第一个type必须是 KEY_TYPES 中的类型
                 if value is None:
@@ -57,12 +57,12 @@ def to_arg(type_, value):
                         dict_value[key_type(k)] = v
                 else:  # 自定义类型
                     for k, v in value.items():
-                        dict_value[key_type(k)] = json_2_obj(v, value_type)
+                        dict_value[key_type(k)] = json_to_obj(v, value_type)
                 return dict_value
 
 
 # json 可以是str或者dict
-def json_2_obj(json_, type_: type):
+def json_to_obj(json_, type_: type):
     if json_ is None:
         return None
 
@@ -86,77 +86,3 @@ def json_2_obj(json_, type_: type):
         args.append(to_arg(v, json_dict.get(k)))
 
     return type_(*tuple(args))
-
-
-def test1():
-    class B:
-        def __init__(self, bbb: str):
-            self.bbb = bbb
-
-    class A:
-        def __init__(self, name: str, b: B, dict: dict):
-            self.name = name
-            self.b = b
-            self.dict = dict
-
-    js1 = '{"name":"kainhuck", "b":{"bbb":"bbb"}, "dict":{"a":1, "b":"b"}}'
-    js2 = '{"b":{"bbb":"bbb"}, "dict":{"a":1, "b":"b"}}'
-    a = json_2_obj(js1, A)
-    print(a.name)
-    print(a.b)
-    print(a.b.bbb)
-    print(a.dict)
-
-
-def test2():
-    class A(object):
-        def __init__(self, names: [str]):
-            self.names = names
-
-    js = '{"names":["sdf","dasd"]}'
-    a = json_2_obj(js, A)
-    print(a.names)
-
-
-def test3():
-    class A(object):
-        def __init__(self, names: [dict]):
-            self.names = names
-
-    js = '{"names":[{"a":1},{"b":"a"}]}'
-    a = json_2_obj(js, A)
-    print(a.names)
-
-
-def test4():
-    class B(object):
-        def __init__(self, h: str):
-            self.h = h
-
-    class A(object):
-        def __init__(self, names: [B]):
-            self.names = names
-
-    js = '{"names":[{"h":1},{"h":"a"}]}'
-    a = json_2_obj(js, A)
-    print(a.names)
-    print(a.names[0].h)
-
-
-def test5():
-    class B(object):
-        def __init__(self, h: str):
-            self.h = h
-
-    class A(object):
-        def __init__(self, names: {str:B}):
-            self.names = names
-
-    js = '{"names":{"a":{"h":1}, "b":{"h":2}}}'
-    a = json_2_obj(js, A)
-    print(a.names)
-    print(a.names["a"].h)
-
-
-if __name__ == '__main__':
-    test5()
