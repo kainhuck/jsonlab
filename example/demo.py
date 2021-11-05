@@ -62,7 +62,7 @@ def test5():
             self.h = h
 
     class A(object):
-        def __init__(self, names: {str:B}):
+        def __init__(self, names: {str: B}):
             self.names = names
 
     js = '{"names":{"a":{"h":1}, "b":{"h":2}}}'
