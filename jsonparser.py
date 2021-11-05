@@ -24,12 +24,15 @@ def to_arg(type_, value):
 
                 # 将 value 中每个值转换成 sub_type 类型
                 list_values = []
-                if sub_type in BASE_TYPES:  # 基础类型, todo 支持任意类型
+                if sub_type in BASE_TYPES:  # 基础类型
                     for v in value:
                         if v is None:
                             list_values.append(None)
                         else:
                             list_values.append(sub_type(v))
+                elif sub_type is object:
+                    for v in value:
+                        list_values.append(v)
                 else:  # 自定义类型, 这种情况 value 应该是一个 dict
                     for v in value:
                         list_values.append(json_2_obj(v, sub_type))
@@ -49,6 +52,9 @@ def to_arg(type_, value):
                             dict_value[key_type(k)] = None
                         else:
                             dict_value[key_type(k)] = value_type(v)
+                elif value_type is object:
+                    for k, v in value.items():
+                        dict_value[key_type(k)] = v
                 else:  # 自定义类型
                     for k, v in value.items():
                         dict_value[key_type(k)] = json_2_obj(v, value_type)
