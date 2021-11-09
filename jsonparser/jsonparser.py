@@ -11,7 +11,7 @@ def to_arg(type_, value):
         return type_(value)
     else:
         if isinstance(type_, type):
-            return parse(value, type_)
+            return unmarshal(value, type_)
         else:
             if isinstance(type_, list):
                 if value is None:
@@ -33,7 +33,7 @@ def to_arg(type_, value):
                         list_values.append(v)
                 else:
                     for v in value:
-                        list_values.append(parse(v, sub_type))
+                        list_values.append(unmarshal(v, sub_type))
                 return list_values
             elif isinstance(type_, dict):
                 if value is None:
@@ -55,11 +55,11 @@ def to_arg(type_, value):
                         dict_value[key_type(k)] = v
                 else:
                     for k, v in value.items():
-                        dict_value[key_type(k)] = parse(v, value_type)
+                        dict_value[key_type(k)] = unmarshal(v, value_type)
                 return dict_value
 
 
-def parse(json_, type_: type):
+def unmarshal(json_, type_: type):
     if json_ is None:
         return None
 

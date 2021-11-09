@@ -1,1 +1,1 @@
-from .jsonparser import parse
+from .jsonparser import unmarshal

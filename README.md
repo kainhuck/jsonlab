@@ -6,7 +6,7 @@
 
 - 使用说明
 
-  这个库提供了一个`parse`方法，该方法的第一个参数是`json字符串`或者`二进制json字符串`或者`字典`,第二个参数是要实例化的类型，
+  这个库提供了一个`unmarshal`方法，该方法的第一个参数是`json字符串`或者`二进制json字符串`或者`字典`,第二个参数是要实例化的类型，
 
   对于该类型，必须满足以下要求：
 
@@ -28,7 +28,7 @@
   
   json_str = '{"name":"kainhuck", "age":12}'
   
-  p = jsonparser.parse(json_str, Person)
+  p = jsonparser.unmarshal(json_str, Person)
   assert isinstance(p, Person)
   ...
   ```

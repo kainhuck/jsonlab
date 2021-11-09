@@ -1,6 +1,4 @@
-import json
-
-from jsonparser import parse
+from jsonparser import unmarshal
 
 
 # 属性是自定义类型，属性是字典类型，属性是基础类型
@@ -17,7 +15,7 @@ def test1():
 
     js1 = '{"name":"kainhuck", "b":{"bbb":"bbb"}, "dict":{"a":1, "b":"b"}}'
     js2 = '{"b":{"bbb":"bbb"}, "dict":{"a":1, "b":"b"}}'
-    a = parse(js1, A)
+    a = unmarshal(js1, A)
     print(a.name)
     print(a.b)
     print(a.b.bbb)
@@ -31,7 +29,7 @@ def test2():
             self.names = names
 
     js = '{"names":["sdf","dasd"]}'
-    a = parse(js, A)
+    a = unmarshal(js, A)
     print(a.names)
 
 
@@ -42,7 +40,7 @@ def test3():
             self.names = names
 
     js = '{"names":[{"a":1},{"b":"a"}]}'
-    a = parse(js, A)
+    a = unmarshal(js, A)
     print(a.names)
 
 
@@ -57,7 +55,7 @@ def test4():
             self.names = names
 
     js = '{"names":[{"h":1},{"h":"a"}]}'
-    a = parse(js, A)
+    a = unmarshal(js, A)
     print(a.names)
     print(a.names[0].h)
 
@@ -73,7 +71,7 @@ def test5():
             self.names = names
 
     js = '{"names":{"a":{"h":1}, "b":{"h":2}}}'
-    a = parse(js, A)
+    a = unmarshal(js, A)
     print(a.names)
     print(a.names["a"].h)
 
@@ -90,7 +88,7 @@ def test6():
             self.age = age
 
     js = '{"name":"kainhuck", "age":18}'
-    p = parse(js, Person)
+    p = unmarshal(js, Person)
     assert isinstance(p, Person)
     print(p.name)
     print(p.age)
@@ -104,7 +102,7 @@ def test7():
 
     js = '{"any": ["string", 18, {"a":"a"}, [1,2,"3"]]}'
 
-    p = parse(js, Person)
+    p = unmarshal(js, Person)
     print(p.any)
 
 
@@ -123,7 +121,7 @@ def test8():
                          }
              }'''
 
-    p = parse(js, Person)
+    p = unmarshal(js, Person)
     assert isinstance(p, Person)
     print(p.things)
     print(p.things["a"])
@@ -139,7 +137,7 @@ def test9():
             self.any = any
 
     js = b'{"any": ["string", 18, {"a":"a"}, [1,2,"3"]]}'
-    p = parse(js, Person)
+    p = unmarshal(js, Person)
     print(p.any)
 
 
