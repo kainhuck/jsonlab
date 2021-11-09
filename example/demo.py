@@ -1,6 +1,7 @@
 from jsonparser import parse
 
 
+# 属性是自定义类型，属性是字典类型，属性是基础类型
 def test1():
     class B:
         def __init__(self, bbb: str):
@@ -21,6 +22,7 @@ def test1():
     print(a.dict)
 
 
+# 属性是指定类型的列表，注意目前只支持列表中唯一类型，或则 使用 list（这种是普通列表，不会将内部的字典序列化成对象）
 def test2():
     class A(object):
         def __init__(self, names: [str]):
@@ -31,6 +33,7 @@ def test2():
     print(a.names)
 
 
+# 属性是字典类型的列表
 def test3():
     class A(object):
         def __init__(self, names: [dict]):
@@ -41,6 +44,7 @@ def test3():
     print(a.names)
 
 
+# 属性是自定义类型的列表
 def test4():
     class B(object):
         def __init__(self, h: str):
@@ -56,6 +60,7 @@ def test4():
     print(a.names[0].h)
 
 
+# 属性是指定key，value类型的字典，value；类型为自定义类型
 def test5():
     class B(object):
         def __init__(self, h: str):
@@ -71,6 +76,7 @@ def test5():
     print(a.names["a"].h)
 
 
+# 类继承例子
 def test6():
     class Base(object):
         def __init__(self, name: str):
@@ -88,9 +94,10 @@ def test6():
     print(p.age)
 
 
+# 类属性是任意类型列表例子, 同 list
 def test7():
     class Person(object):
-        def __init__(self, any: [object]):
+        def __init__(self, any: [object]):  # == def __init__(self, any: list)
             self.any = any
 
     js = '{"any": ["string", 18, {"a":"a"}, [1,2,"3"]]}'
@@ -99,29 +106,28 @@ def test7():
     print(p.any)
 
 
+# 类属性是字典，其中 key 为指定类型，value为任意类型
 def test8():
-    class Thing(object):
-        def __init__(self, name: str):
-            self.name = name
-
     class Person(object):
-        def __init__(self, name: str, things: {str: Thing}):
-            self.name = name
+        def __init__(self, things: {str: object}):
             self.things = things
 
     js = '''{
-              "name": "kainhuck", 
               "things": {
                          "a":{"name":"a"}, 
-                         "b":{"name":"b"}
+                         "b":["b", 1],
+                         "c":1,
+                         "d":false
                          }
              }'''
 
     p = parse(js, Person)
     assert isinstance(p, Person)
-    print(p.name)
     print(p.things)
-    print(p.things["a"].name)
+    print(p.things["a"])
+    print(p.things["b"])
+    print(p.things["c"])
+    print(p.things["d"])
 
 
 if __name__ == '__main__':
