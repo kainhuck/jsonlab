@@ -38,4 +38,5 @@
 
 ## todo
 
-1. 发布到pypi
+1. 实现`marshal()`方法
+2. 发布到pypi
