@@ -75,8 +75,10 @@ def parse(json_, type_: type):
     else:
         raise Exception("only support `str` or `dict` type for `json_`")
 
-    args = []
+    kwargs = {}
     for k, v in init_func_annotations.items():
-        args.append(to_arg(v, json_dict.get(k)))
+        value = json_dict.get(k)
+        if value is not None:
+            kwargs[k] = to_arg(v, value)
 
-    return type_(*tuple(args))
+    return type_(**kwargs)
