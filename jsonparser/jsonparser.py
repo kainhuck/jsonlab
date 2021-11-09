@@ -19,7 +19,6 @@ def to_arg(type_, value):
                 assert isinstance(value, list)
                 assert len(type_) == 1
                 sub_type = type_[0]
-                assert isinstance(sub_type, type)
 
                 list_values = []
                 if sub_type in BASE_TYPES:
@@ -31,6 +30,9 @@ def to_arg(type_, value):
                 elif sub_type is object:
                     for v in value:
                         list_values.append(v)
+                elif isinstance(sub_type, (list, dict)):  # 列表里面是列表 比如: [[str]], 列表里面是字典 比如: [{str:str}]
+                    for v in value:
+                        list_values.append(to_arg(sub_type, v))
                 else:
                     for v in value:
                         list_values.append(unmarshal(v, sub_type))
@@ -82,3 +84,34 @@ def unmarshal(json_, type_: type):
             kwargs[k] = to_arg(v, value)
 
     return type_(**kwargs)
+
+
+def marshal_to_dict(obj) -> dict:
+    # 这个 obj 必须是 自定义类型
+    if type(obj) in BASE_TYPES:
+        raise Exception("obj must be custom class type")
+    # 自行已类型必须有 __init__ 方法
+    if not hasattr(obj.__init__, "__annotations__"):
+        raise Exception(f"{type(obj)} need `__init__` method")
+
+    init_func_annotations = obj.__init__.__annotations__
+
+    dict_ = {}
+    # 要格参与序列化的参数必须在 __init__中出现
+    for k, v in init_func_annotations.items():
+        value = obj.__getattribute__(k)
+        if v in BASE_TYPES:
+            dict_[k] = v(value)
+        else:
+            if isinstance(v, type):
+                # 自定义类型
+                dict_[k] = marshal_to_dict(value)
+            else:
+                # todo 其他 [str] {str:str} ...
+                pass
+
+    return dict_
+
+
+def marshal(obj) -> str:
+    return json.dumps(marshal_to_dict(obj))

@@ -14,7 +14,7 @@
   2. 类的属性参数必须包含在`__init__`方法参数中
   3. `__init__`方法参数必须要有注解
   4. 不满足上述条件之一，则该类（属性）不被序列化（或序列化不成功）
-  5. 其他复杂类型属性的定义见[demo](example/demo.py)
+  5. 其他复杂类型属性的定义见[demo](example/unmarshal_demo.py)
 
 - 例子
 
@@ -33,7 +33,7 @@
   ...
   ```
 
-   更多例子见: [demo](example/demo.py)
+   更多例子见: [demo](example/unmarshal_demo.py)
 
 
 ## todo

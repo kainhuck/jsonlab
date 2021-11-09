@@ -141,6 +141,50 @@ def test9():
     print(p.any)
 
 
+# 类的属性是嵌套列表
+def test10():
+    class B(object):
+        def __init__(self, name: str):
+            self.name = name
+
+    class A(object):
+        def __init__(self, value: [[B]]):
+            self.value = value
+
+    js = '''{
+              "value": [
+                [{"name":"a1"},{"name":"a2"},{"name":"a3"}],
+                [{"name":"b1"},{"name":"b2"},{"name":"b3"}],
+                [{"name":"c1"},{"name":"c2"},{"name":"c3"}]
+              ]
+            }'''
+    a = unmarshal(js, A)
+    print(a.value[0][0].name)
+
+
+# 类的属性是列表嵌套字典
+def test11():
+    class B(object):
+        def __init__(self, name: str):
+            self.name = name
+
+    class A(object):
+        def __init__(self, value: [{str: B}]):
+            self.value = value
+
+    js = '''
+        {
+            "value": [
+              {"a": {"name":"a"}},
+              {"b": {"name":"b"}},
+              {"c": {"name":"c"}}
+            ]
+        }
+    '''
+    a = unmarshal(js, A)
+    print(a.value[1]["b"].name)
+
+
 if __name__ == '__main__':
     test1()
     test2()
@@ -151,3 +195,5 @@ if __name__ == '__main__':
     test7()
     test8()
     test9()
+    test10()
+    test11()
