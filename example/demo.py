@@ -99,6 +99,31 @@ def test7():
     print(p.any)
 
 
+def test8():
+    class Thing(object):
+        def __init__(self, name: str):
+            self.name = name
+
+    class Person(object):
+        def __init__(self, name: str, things: {str: Thing}):
+            self.name = name
+            self.things = things
+
+    js = '''{
+              "name": "kainhuck", 
+              "things": {
+                         "a":{"name":"a"}, 
+                         "b":{"name":"b"}
+                         }
+             }'''
+
+    p = parse(js, Person)
+    assert isinstance(p, Person)
+    print(p.name)
+    print(p.things)
+    print(p.things["a"].name)
+
+
 if __name__ == '__main__':
     test1()
     test2()
@@ -107,3 +132,4 @@ if __name__ == '__main__':
     test5()
     test6()
     test7()
+    test8()
