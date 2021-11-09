@@ -88,6 +88,17 @@ def test6():
     print(p.age)
 
 
+def test7():
+    class Person(object):
+        def __init__(self, any: [object]):
+            self.any = any
+
+    js = '{"any": ["string", 18, {"a":"a"}, [1,2,"3"]]}'
+
+    p = json_to_obj(js, Person)
+    print(p.any)
+
+
 if __name__ == '__main__':
     test1()
     test2()
@@ -95,3 +106,4 @@ if __name__ == '__main__':
     test4()
     test5()
     test6()
+    test7()
