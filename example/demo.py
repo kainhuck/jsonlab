@@ -71,9 +71,27 @@ def test5():
     print(a.names["a"].h)
 
 
+def test6():
+    class Base(object):
+        def __init__(self, name: str):
+            self.name = name
+
+    class Person(Base):
+        def __init__(self, name: str, age: int):
+            super().__init__(name)
+            self.age = age
+
+    js = '{"name":"kainhuck", "age":18}'
+    p = json_to_obj(js, Person)
+    assert isinstance(p, Person)
+    print(p.name)
+    print(p.age)
+
+
 if __name__ == '__main__':
     test1()
     test2()
     test3()
     test4()
     test5()
+    test6()
