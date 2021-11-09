@@ -1,7 +1,7 @@
 import json
 
-BASE_TYPES = (str, int, float, list, tuple, dict)
-KEY_TYPES = (str, int, float, tuple)
+BASE_TYPES = (str, int, float, list, tuple, dict, bool)
+KEY_TYPES = (str, int, float, tuple, bool)
 
 
 def to_arg(type_, value):
