@@ -1,4 +1,4 @@
-from jsonparser import json_to_obj
+from jsonparser import parse
 
 
 def test1():
@@ -14,7 +14,7 @@ def test1():
 
     js1 = '{"name":"kainhuck", "b":{"bbb":"bbb"}, "dict":{"a":1, "b":"b"}}'
     js2 = '{"b":{"bbb":"bbb"}, "dict":{"a":1, "b":"b"}}'
-    a = json_to_obj(js1, A)
+    a = parse(js1, A)
     print(a.name)
     print(a.b)
     print(a.b.bbb)
@@ -27,7 +27,7 @@ def test2():
             self.names = names
 
     js = '{"names":["sdf","dasd"]}'
-    a = json_to_obj(js, A)
+    a = parse(js, A)
     print(a.names)
 
 
@@ -37,7 +37,7 @@ def test3():
             self.names = names
 
     js = '{"names":[{"a":1},{"b":"a"}]}'
-    a = json_to_obj(js, A)
+    a = parse(js, A)
     print(a.names)
 
 
@@ -51,7 +51,7 @@ def test4():
             self.names = names
 
     js = '{"names":[{"h":1},{"h":"a"}]}'
-    a = json_to_obj(js, A)
+    a = parse(js, A)
     print(a.names)
     print(a.names[0].h)
 
@@ -66,7 +66,7 @@ def test5():
             self.names = names
 
     js = '{"names":{"a":{"h":1}, "b":{"h":2}}}'
-    a = json_to_obj(js, A)
+    a = parse(js, A)
     print(a.names)
     print(a.names["a"].h)
 
@@ -82,7 +82,7 @@ def test6():
             self.age = age
 
     js = '{"name":"kainhuck", "age":18}'
-    p = json_to_obj(js, Person)
+    p = parse(js, Person)
     assert isinstance(p, Person)
     print(p.name)
     print(p.age)
@@ -95,7 +95,7 @@ def test7():
 
     js = '{"any": ["string", 18, {"a":"a"}, [1,2,"3"]]}'
 
-    p = json_to_obj(js, Person)
+    p = parse(js, Person)
     print(p.any)
 
 

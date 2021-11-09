@@ -24,7 +24,7 @@ python::
 
   json_str = '{"name":"kainhuck", "age":12}'
 
-  p = jsonparser.json_to_obj(json_str, Person)
+  p = jsonparser.parse(json_str, Person)
   assert isinstance(p, Person)
   ...
 
