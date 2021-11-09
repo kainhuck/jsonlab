@@ -1,3 +1,5 @@
+import json
+
 from jsonparser import parse
 
 
@@ -130,6 +132,17 @@ def test8():
     print(p.things["d"])
 
 
+# 二进制json字符串也支持
+def test9():
+    class Person(object):
+        def __init__(self, any: [object]):  # == def __init__(self, any: list)
+            self.any = any
+
+    js = b'{"any": ["string", 18, {"a":"a"}, [1,2,"3"]]}'
+    p = parse(js, Person)
+    print(p.any)
+
+
 if __name__ == '__main__':
     test1()
     test2()
@@ -139,3 +152,4 @@ if __name__ == '__main__':
     test6()
     test7()
     test8()
+    test9()

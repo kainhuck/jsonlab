@@ -68,7 +68,7 @@ def parse(json_, type_: type):
 
     init_func_annotations = type_.__init__.__annotations__
 
-    if isinstance(json_, str):
+    if isinstance(json_, str) or isinstance(json_, bytes):
         json_dict = json.loads(json_)
     elif isinstance(json_, dict):
         json_dict = json_
