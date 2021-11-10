@@ -2,7 +2,8 @@
 
 ## 介绍
 
-众所周知，python内置的json不提供将json字符串序列化成json字符串(`__dict__`可序列化一层字典，不能递归)，也不提供将json字符串反向序列化成类对象的功能，为了解决这个痛点，再多方寻找无果后，决心自己开发提供该功能的库，现已开发完毕，在此公布于大众，以造福全人类。
+众所周知，python内置的json不提供将json字符串序列化成json字符串(`__dict__`可序列化一层字典，不能递归)
+，也不提供将json字符串反向序列化成类对象的功能，为了解决这个痛点，再多方寻找无果后，决心自己开发提供该功能的库，现已开发完毕，在此公布于大众，以造福全人类。
 
 ## 使用场景
 
@@ -24,16 +25,17 @@
 
 ```python
 class Person(object):
-	def __init__(self, name:str, age:int):
-  	self.name = name
-    self.age = age
+    def __init__(self, name: str, age: int):
+        self.name = name
+        self.age = age
+
 
 # or
 
 class Person(object):
-	def __init__(self, name:str="kainhuck", age:int=18):
-  	self.name = name
-    self.age = age
+    def __init__(self, name: str = "kainhuck", age: int = 18):
+        self.name = name
+        self.age = age
 ```
 
 **例2：**
@@ -42,18 +44,19 @@ class Person(object):
 
 ```python
 class Person(object):
-	def __init__(self, name:str, age:int, hobby):
-  	self.name = name
-    self.age = age
-    self.hobby = hobby
+    def __init__(self, name: str, age: int, hobby):
+        self.name = name
+        self.age = age
+        self.hobby = hobby
+
 
 # or
 
 class Person(object):
-	def __init__(self, name:str, age:int):
-  	self.name = name
-    self.age = age
-    self.hobby = ""
+    def __init__(self, name: str, age: int):
+        self.name = name
+        self.age = age
+        self.hobby = ""
 ```
 
 **例3：**
@@ -62,13 +65,14 @@ class Person(object):
 
 ```python
 class B(object):
-  def __init__(self, b_name:str):
-    self.b_name = b_name
+    def __init__(self, b_name: str):
+        self.b_name = b_name
+
 
 class A(B):
-  def __init__(self, a_name:str, b_name:str):
-    super().__init__(b_name)
-    self.a_name = a_name
+    def __init__(self, a_name: str, b_name: str):
+        super().__init__(b_name)
+        self.a_name = a_name
 ```
 
 **例4：**
@@ -77,13 +81,14 @@ class A(B):
 
 ```python
 class B(object):
-  def __init__(self, b_name:str):
-    self.b_name = b_name
+    def __init__(self, b_name: str):
+        self.b_name = b_name
+
 
 class A(object):
-  def __init__(self, a_name:str, b:B):
-    self.a_name = a_name
-    self.b = b
+    def __init__(self, a_name: str, b: B):
+        self.a_name = a_name
+        self.b = b
 ```
 
 **例5：**
@@ -97,7 +102,7 @@ class A(object):
 3. 子类型支持一下几种情况
 
    | 子类型名         | 描述                                                         |
-   | ---------------- | ------------------------------------------------------------ |
+      | ---------------- | ------------------------------------------------------------ |
    | str              | 内置类型 -- 字符串                                           |
    | int              | 内置类型 -- 整数                                             |
    | float            | 内置类型 -- 浮点数                                           |
@@ -111,30 +116,34 @@ class A(object):
 
 ```python
 class A:
-  def __init__(self, values: [str]):
-    self.values = values
+    def __init__(self, values: [str]):
+        self.values = values
+
 
 # or 
 
 class B:
-  def __init__(self, b_name: str):
-    self.b_name = b_name
+    def __init__(self, b_name: str):
+        self.b_name = b_name
+
 
 class A:
-  def __init__(self, values: [B]):
-    self.values = values
+    def __init__(self, values: [B]):
+        self.values = values
+
 
 # or
 
 class A:
-  def __init__(self, values: [[str]]):
-    self.values = values
+    def __init__(self, values: [[str]]):
+        self.values = values
+
 
 # or
 
 class A:
-  def __init__(self, values: [{str: object}]):
-    self.values = values
+    def __init__(self, values: [{str: object}]):
+        self.values = values
 ```
 
 **例6：**
@@ -147,15 +156,15 @@ class A:
 
 3. key类型支持如下
 
-   1. str
-   2. int
-   3. float
-   4. bool
+    1. str
+    2. int
+    3. float
+    4. bool
 
 4. value类型支持如下
 
    | 类型名           | 描述                                                         |
-   | ---------------- | ------------------------------------------------------------ |
+      | ---------------- | ------------------------------------------------------------ |
    | str              | 内置类型 -- 字符串                                           |
    | int              | 内置类型 -- 整数                                             |
    | float            | 内置类型 -- 浮点数                                           |
@@ -169,30 +178,34 @@ class A:
 
 ```python
 class A:
-  def __init__(self, values: {str: str}):
-    self.values = values
+    def __init__(self, values: {str: str}):
+        self.values = values
+
 
 # or 
 
 class B:
-  def __init__(self, b_name: str):
-    self.b_name = b_name
+    def __init__(self, b_name: str):
+        self.b_name = b_name
+
 
 class A:
-  def __init__(self, values: {str: B}):
-    self.values = values
+    def __init__(self, values: {str: B}):
+        self.values = values
+
 
 # or
 
 class A:
-  def __init__(self, values: {str: [str]}):
-    self.values = values
+    def __init__(self, values: {str: [str]}):
+        self.values = values
+
 
 # or
 
 class A:
-  def __init__(self, values: {str: {str: object}}):
-    self.values = values
+    def __init__(self, values: {str: {str: object}}):
+        self.values = values
 ```
 
 ## Usage
@@ -219,7 +232,6 @@ class A:
 
 - 序列化: [demo](example/marshal_demo.py)
 - 反序列化: [demo](example/unmarshal_demo.py)
-
 
 ## todo
 
