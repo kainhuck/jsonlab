@@ -197,6 +197,26 @@ class A:
 
 ## Usage
 
+**接口**
+
+- `marshal(obj) -> str`
+
+  传递一个类实例，返回一个序列化后的json字符串
+
+- `marshal_to_dict(obj) -> dict`
+
+  传递一个类实例，返回一个字典对象
+
+- `unmarshal(json_, type_: type)`
+
+  第一个参数可以是: json字符串，bytes类型的json字符串，字典对象
+
+  第二个参数是自定义类型
+
+  返回自定义类型的实例
+
+**demo**
+
 - 序列化: [demo](example/marshal_demo.py)
 - 反序列化: [demo](example/unmarshal_demo.py)
 
