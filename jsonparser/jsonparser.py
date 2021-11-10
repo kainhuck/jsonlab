@@ -100,7 +100,57 @@ def to_marshal_arg(type_, value):
         if isinstance(type_, type):
             return marshal_to_dict(value)
         else:
-            pass # todo
+            if isinstance(type_, list):
+                if value is None:
+                    return None
+                assert isinstance(value, list)
+                assert len(type_) == 1
+                sub_type = type_[0]
+
+                list_values = []
+                if sub_type in BASE_TYPES:
+                    for v in value:
+                        if v is None:
+                            list_values.append(None)
+                        else:
+                            list_values.append(sub_type(v))
+                elif sub_type is object:
+                    for v in value:
+                        list_values.append(v)
+                elif isinstance(sub_type, (list, dict)):  # 列表里面是列表 比如: [[str]], 列表里面是字典 比如: [{str:str}]
+                    for v in value:
+                        list_values.append(to_marshal_arg(sub_type, v))
+                else:
+                    for v in value:
+                        list_values.append(marshal_to_dict(v))
+                return list_values
+            elif isinstance(type_, dict):
+                if value is None:
+                    return None
+                assert isinstance(value, dict)
+                assert len(type_) == 1
+                key_type = list(type_.keys())[0]
+                assert key_type in KEY_TYPES
+                value_type = list(type_.values())[0]
+                dict_value = {}
+                if value_type in BASE_TYPES:
+                    for k, v in value.items():
+                        if v is None:
+                            dict_value[key_type(k)] = None
+                        else:
+                            dict_value[key_type(k)] = value_type(v)
+                elif value_type is object:
+                    for k, v in value.items():
+                        dict_value[key_type(k)] = v
+                elif isinstance(value_type, (list, dict)):
+                    for k, v in value.items():
+                        dict_value[key_type(k)] = to_marshal_arg(value_type, v)
+                else:
+                    for k, v in value.items():
+                        dict_value[key_type(k)] = marshal_to_dict(v)
+                return dict_value
+            else:
+                raise Exception("unSupported type")
 
 
 def marshal_to_dict(obj) -> dict:

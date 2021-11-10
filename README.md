@@ -38,5 +38,4 @@
 
 ## todo
 
-1. 实现`marshal()`方法
 2. 发布到pypi
