@@ -13,7 +13,6 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/kainhuck/jsonlab",
     packages=setuptools.find_packages(),
-    install_requires=['psycopg2==2.8.5'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

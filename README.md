@@ -232,7 +232,3 @@ class A:
 
 - 序列化: [demo](example/marshal_demo.py)
 - 反序列化: [demo](example/unmarshal_demo.py)
-
-## todo
-
-1. 发布到pypi
