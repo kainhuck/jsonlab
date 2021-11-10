@@ -62,6 +62,8 @@ def to_arg(type_, value):
                     for k, v in value.items():
                         dict_value[key_type(k)] = unmarshal(v, value_type)
                 return dict_value
+            else:
+                raise Exception("unSupported type")
 
 
 def unmarshal(json_, type_: type):
@@ -93,25 +95,29 @@ def marshal_to_dict(obj) -> dict:
     # 这个 obj 必须是 自定义类型
     if type(obj) in BASE_TYPES:
         raise Exception("obj must be custom class type")
-    # 自行已类型必须有 __init__ 方法
+    # 自定义类型必须有 __init__ 方法
     if not hasattr(obj.__init__, "__annotations__"):
         raise Exception(f"{type(obj)} need `__init__` method")
 
     init_func_annotations = obj.__init__.__annotations__
 
     dict_ = {}
-    # 要格参与序列化的参数必须在 __init__中出现
-    for k, v in init_func_annotations.items():
+    # 要参与序列化的参数必须在 __init__中出现
+    for k, t in init_func_annotations.items():
         value = obj.__getattribute__(k)
-        if v in BASE_TYPES:
-            dict_[k] = v(value)
+        if t in BASE_TYPES:
+            dict_[k] = t(value)
         else:
-            if isinstance(v, type):
+            if isinstance(t, type):
                 # 自定义类型
                 dict_[k] = marshal_to_dict(value)
             else:
-                # todo 其他 [str] {str:str} ...
-                pass
+                if isinstance(t, list): # [str] [obj] [type] [[]] [{}]
+                    pass
+                elif isinstance(t, dict):
+                    pass
+                else:
+                    raise Exception("unSupported type")
 
     return dict_
 
