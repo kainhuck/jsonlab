@@ -1,4 +1,4 @@
-from jsonparser import marshal
+from jsonlab import marshal
 
 
 # 类的属性是 基本类型

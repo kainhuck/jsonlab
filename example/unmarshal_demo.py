@@ -1,4 +1,4 @@
-from jsonparser import unmarshal
+from jsonlab import unmarshal
 
 
 # 属性是自定义类型，属性是字典类型，属性是基础类型
