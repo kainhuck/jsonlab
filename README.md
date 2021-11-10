@@ -1,5 +1,7 @@
 # jsonlab
 
+![GitHub](https://img.shields.io/github/license/kainhuck/jsonlab?style=flat-square) ![PyPI](https://img.shields.io/pypi/v/jsonlab?style=flat-square) ![PyPI - Format](https://img.shields.io/pypi/format/jsonlab?style=flat-square) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/jsonlab?style=flat-square) ![PyPI - Implementation](https://img.shields.io/pypi/implementation/jsonlab?style=flat-square)
+
 ## 介绍
 
 众所周知，python内置的json不提供将json字符串序列化成json字符串(`__dict__`可序列化一层字典，不能递归)
