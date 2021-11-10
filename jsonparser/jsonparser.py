@@ -4,7 +4,7 @@ BASE_TYPES = (str, int, float, list, tuple, dict, bool)
 KEY_TYPES = (str, int, float, tuple, bool)
 
 
-def to_arg(type_, value):
+def to_unmarshal_arg(type_, value):
     if type_ in BASE_TYPES:
         if value is None:
             return type_()
@@ -32,7 +32,7 @@ def to_arg(type_, value):
                         list_values.append(v)
                 elif isinstance(sub_type, (list, dict)):  # 列表里面是列表 比如: [[str]], 列表里面是字典 比如: [{str:str}]
                     for v in value:
-                        list_values.append(to_arg(sub_type, v))
+                        list_values.append(to_unmarshal_arg(sub_type, v))
                 else:
                     for v in value:
                         list_values.append(unmarshal(v, sub_type))
@@ -57,7 +57,7 @@ def to_arg(type_, value):
                         dict_value[key_type(k)] = v
                 elif isinstance(value_type, (list, dict)):
                     for k, v in value.items():
-                        dict_value[key_type(k)] = to_arg(value_type, v)
+                        dict_value[key_type(k)] = to_unmarshal_arg(value_type, v)
                 else:
                     for k, v in value.items():
                         dict_value[key_type(k)] = unmarshal(v, value_type)
@@ -83,12 +83,24 @@ def unmarshal(json_, type_: type):
         raise Exception("only support `str` or `dict` type for `json_`")
 
     kwargs = {}
-    for k, v in init_func_annotations.items():
+    for k, t in init_func_annotations.items():
         value = json_dict.get(k)
         if value is not None:
-            kwargs[k] = to_arg(v, value)
+            kwargs[k] = to_unmarshal_arg(t, value)
 
     return type_(**kwargs)
+
+
+def to_marshal_arg(type_, value):
+    if type_ in BASE_TYPES:
+        if value is None:
+            return type_()
+        return type_(value)
+    else:
+        if isinstance(type_, type):
+            return marshal_to_dict(value)
+        else:
+            pass # todo
 
 
 def marshal_to_dict(obj) -> dict:
@@ -105,19 +117,10 @@ def marshal_to_dict(obj) -> dict:
     # 要参与序列化的参数必须在 __init__中出现
     for k, t in init_func_annotations.items():
         value = obj.__getattribute__(k)
-        if t in BASE_TYPES:
-            dict_[k] = t(value)
+        if value is not None:
+            dict_[k] = to_marshal_arg(t, value)
         else:
-            if isinstance(t, type):
-                # 自定义类型
-                dict_[k] = marshal_to_dict(value)
-            else:
-                if isinstance(t, list): # [str] [obj] [type] [[]] [{}]
-                    pass
-                elif isinstance(t, dict):
-                    pass
-                else:
-                    raise Exception("unSupported type")
+            dict_[k] = None  # todo need ?
 
     return dict_
 
