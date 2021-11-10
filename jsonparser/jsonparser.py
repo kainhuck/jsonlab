@@ -55,6 +55,9 @@ def to_arg(type_, value):
                 elif value_type is object:
                     for k, v in value.items():
                         dict_value[key_type(k)] = v
+                elif isinstance(value_type, (list, dict)):
+                    for k, v in value.items():
+                        dict_value[key_type(k)] = to_arg(value_type, v)
                 else:
                     for k, v in value.items():
                         dict_value[key_type(k)] = unmarshal(v, value_type)

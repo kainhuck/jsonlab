@@ -185,6 +185,28 @@ def test11():
     print(a.value[1]["b"].name)
 
 
+# 类的属性是字典嵌套字典嵌套列表
+def test12():
+    class A:
+        def __init__(self, values: {str: {str: [object]}}):
+            self.values = values
+    js = '''
+    {
+        "values":{
+            "a":{
+                "a1": [1, 2, "3", 3.14]
+            },
+            "b":{
+                "b1": [1, 2, "3", 3.14]
+            }
+        }
+    }
+    '''
+    a = unmarshal(js, A)
+    print(a.values)
+    print(a.values["a"]["a1"])
+
+
 if __name__ == '__main__':
     test1()
     test2()
@@ -197,3 +219,4 @@ if __name__ == '__main__':
     test9()
     test10()
     test11()
+    test12()
