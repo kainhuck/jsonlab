@@ -10,7 +10,9 @@ def to_unmarshal_arg(type_, value):
             return type_()
         return type_(value)
     else:
-        if isinstance(type_, type):
+        if type_ is object:
+            return value
+        elif isinstance(type_, type):
             return unmarshal(value, type_)
         else:
             if isinstance(type_, list):
@@ -97,7 +99,9 @@ def to_marshal_arg(type_, value):
             return type_()
         return type_(value)
     else:
-        if isinstance(type_, type):
+        if type_ is object:
+            return value
+        elif isinstance(type_, type):
             return marshal_to_dict(value)
         else:
             if isinstance(type_, list):
