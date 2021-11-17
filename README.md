@@ -1,6 +1,6 @@
 # jsonlab
 
-![GitHub](https://img.shields.io/github/license/kainhuck/jsonlab?style=flat-square) ![PyPI](https://img.shields.io/pypi/v/jsonlab?style=flat-square) ![PyPI - Format](https://img.shields.io/pypi/format/jsonlab?style=flat-square) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/jsonlab?style=flat-square) ![PyPI - Implementation](https://img.shields.io/pypi/implementation/jsonlab?style=flat-square)
+![GitHub](https://img.shields.io/github/license/kainhuck/jsonlab?style=flat-square) ![PyPI](https://img.shields.io/pypi/v/jsonlab?style=flat-square) ![PyPI - Format](https://img.shields.io/pypi/format/jsonlab?style=flat-square) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/jsonlab?style=flat-square) ![PyPI - Implementation](https://img.shields.io/pypi/implementation/jsonlab?style=flat-square) ![PyPI - Downloads](https://img.shields.io/pypi/dm/jsonlab?style=flat-square)
 
 ## 介绍
 
