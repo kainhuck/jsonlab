@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="jsonlab",
-    version="0.1.2",
+    version="0.1.3",
     author="kainhuck",
     author_email="kainhuck@163.com",
     description="json marshal and unmarshal for custom class",
