@@ -1,4 +1,6 @@
-from jsonlab import unmarshal
+import json
+
+import jsonlab
 
 
 # 属性是自定义类型，属性是字典类型，属性是基础类型
@@ -15,7 +17,7 @@ def test1():
 
     js1 = '{"name":"kainhuck", "b":{"bbb":"bbb"}, "dict":{"a":1, "b":"b"}}'
     js2 = '{"b":{"bbb":"bbb"}, "dict":{"a":1, "b":"b"}}'
-    a = unmarshal(js1, A)
+    a = jsonlab.unmarshal(js1, A)
     print(a.name)
     print(a.b)
     print(a.b.bbb)
@@ -29,7 +31,7 @@ def test2():
             self.names = names
 
     js = '{"names":["sdf","dasd"]}'
-    a = unmarshal(js, A)
+    a = jsonlab.unmarshal(js, A)
     print(a.names)
 
 
@@ -40,7 +42,7 @@ def test3():
             self.names = names
 
     js = '{"names":[{"a":1},{"b":"a"}]}'
-    a = unmarshal(js, A)
+    a = jsonlab.unmarshal(js, A)
     print(a.names)
 
 
@@ -55,7 +57,7 @@ def test4():
             self.names = names
 
     js = '{"names":[{"h":1},{"h":"a"}]}'
-    a = unmarshal(js, A)
+    a = jsonlab.unmarshal(js, A)
     print(a.names)
     print(a.names[0].h)
 
@@ -71,7 +73,7 @@ def test5():
             self.names = names
 
     js = '{"names":{"a":{"h":1}, "b":{"h":2}}}'
-    a = unmarshal(js, A)
+    a = jsonlab.unmarshal(js, A)
     print(a.names)
     print(a.names["a"].h)
 
@@ -88,7 +90,7 @@ def test6():
             self.age = age
 
     js = '{"name":"kainhuck", "age":18}'
-    p = unmarshal(js, Person)
+    p = jsonlab.unmarshal(js, Person)
     assert isinstance(p, Person)
     print(p.name)
     print(p.age)
@@ -102,7 +104,7 @@ def test7():
 
     js = '{"any": ["string", 18, {"a":"a"}, [1,2,"3"]]}'
 
-    p = unmarshal(js, Person)
+    p = jsonlab.unmarshal(js, Person)
     print(p.any)
 
 
@@ -121,7 +123,7 @@ def test8():
                          }
              }'''
 
-    p = unmarshal(js, Person)
+    p = jsonlab.unmarshal(js, Person)
     assert isinstance(p, Person)
     print(p.things)
     print(p.things["a"])
@@ -137,7 +139,7 @@ def test9():
             self.any = any
 
     js = b'{"any": ["string", 18, {"a":"a"}, [1,2,"3"]]}'
-    p = unmarshal(js, Person)
+    p = jsonlab.unmarshal(js, Person)
     print(p.any)
 
 
@@ -158,7 +160,7 @@ def test10():
                 [{"name":"c1"},{"name":"c2"},{"name":"c3"}]
               ]
             }'''
-    a = unmarshal(js, A)
+    a = jsonlab.unmarshal(js, A)
     print(a.value[0][0].name)
 
 
@@ -181,7 +183,7 @@ def test11():
             ]
         }
     '''
-    a = unmarshal(js, A)
+    a = jsonlab.unmarshal(js, A)
     print(a.value[1]["b"].name)
 
 
@@ -190,6 +192,7 @@ def test12():
     class A:
         def __init__(self, values: {str: {str: [object]}}):
             self.values = values
+
     js = '''
     {
         "values":{
@@ -202,9 +205,30 @@ def test12():
         }
     }
     '''
-    a = unmarshal(js, A)
+    a = jsonlab.unmarshal(js, A)
     print(a.values)
     print(a.values["a"]["a1"])
+
+
+# 类的属性是字符串，但实际上是字典/列表
+def test13():
+    class A:
+        def __init__(self, dict_data: str, list_data: str):
+            self.dict_data = dict_data
+            self.list_data = list_data
+
+    js = '''
+    {
+      "dict_data": {"name":"kainhuck", "value":true},
+      "list_data": [1, "a", true]
+    }
+    '''
+
+    a = jsonlab.unmarshal(js, A)
+    print(a.dict_data)
+    print(a.list_data)
+    json.loads(a.dict_data)
+    json.loads(a.list_data)
 
 
 if __name__ == '__main__':
@@ -220,3 +244,4 @@ if __name__ == '__main__':
     test10()
     test11()
     test12()
+    test13()
