@@ -6,7 +6,7 @@ build:
 clean:
 	rm -rf build
 	rm -rf dist
-	rm -rf jsonlab.egg-info
+	rm -rf *.egg-info
 
 upload:
 	twine upload dist/*
