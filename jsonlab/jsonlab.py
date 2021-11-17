@@ -8,6 +8,8 @@ def to_unmarshal_arg(type_, value):
     if type_ in BASE_TYPES:
         if value is None:
             return type_()
+        if type_ is str and type(value) in (dict, list):
+            return json.dumps(value)
         return type_(value)
     else:
         if type_ is object:
